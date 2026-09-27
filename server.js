@@ -11,11 +11,16 @@ connectDB();
 
 const app = express();
 
-// Middlewares
-app.use(cors());
+// CORS Middleware Configuration
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
 app.use(express.json());
 
-// Root Route (Backend success message)
+// Root Route
 app.get('/', (req, res) => {
   res.send('Backend is running successfully');
 });
