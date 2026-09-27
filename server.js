@@ -3,24 +3,24 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require('./config/db');
 
-// Load env variables
 dotenv.config();
-
-// Connect to MongoDB Atlas
 connectDB();
 
 const app = express();
 
-// CORS Middleware Configuration
+// Full CORS support including OPTIONS preflight
 app.use(cors({
   origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"]
 }));
 
 app.use(express.json());
 
-// Root Route
+// Handle preflight requests explicitly if needed
+app.options('*', cors());
+
+// Root route
 app.get('/', (req, res) => {
   res.send('Backend is running successfully');
 });
@@ -29,7 +29,6 @@ app.get('/', (req, res) => {
 app.use('/api/sentiment', require('./routes/sentimentRoutes'));
 
 const PORT = process.env.PORT || 5000;
-
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
