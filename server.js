@@ -15,6 +15,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Root Route (Backend success message)
+app.get('/', (req, res) => {
+  res.send('Backend is running successfully');
+});
+
 // Routes
 app.use('/api/sentiment', require('./routes/sentimentRoutes'));
 
